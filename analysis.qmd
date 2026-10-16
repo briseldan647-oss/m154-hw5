@@ -1,0 +1,12 @@
+---
+title: "analysis"
+format: html
+---
+```{r}
+data <- read.csv("hallucination_cases.csv")
+head(data)
+names(data)
+str(data)
+```
+
+
