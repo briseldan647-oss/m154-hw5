@@ -13,6 +13,7 @@ dim(hallucination_cases)
 str(hallucination_cases)
 table(hallucination_cases$`Professional Sanction`, useNA = "ifany")
 ```
+
 ```{r}
 library(ggplot2)
 ggplot(hallucination_cases, aes(x = `Professional Sanction`)) +
