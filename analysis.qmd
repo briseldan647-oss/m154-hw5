@@ -2,11 +2,124 @@
 title: "analysis"
 format: html
 ---
+
+#research question
+Does the type of party show whether someone who uses AI will receive a professional sanction?
+
 ```{r}
-data <- read.csv("hallucination_cases.csv")
-head(data)
-names(data)
-str(data)
+names(hallucination_cases)
+head(hallucination_cases)
+dim(hallucination_cases)
+str(hallucination_cases)
+table(hallucination_cases$`Professional Sanction`, useNA = "ifany")
+```
+```{r}
+library(ggplot2)
+ggplot(hallucination_cases, aes(x = `Professional Sanction`)) +
+  geom_bar() +
+  labs(
+    title = "cases by which profession",
+    x = "professional santion",
+    y = "cases"
+  ) +
+  theme_minimal()
 ```
 
+#visualization
+```{r}
+ggplot(hallucination_cases, aes(x = `Party(ies)`, fill = `Professional Sanction`)
+) +
+  geom_bar(position = "fill") +
+  labs(
+    title = "Profession",
+    x = "Roles",
+    y = "proportion",
+    fill = "Professional Sanction?"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+```{r}
+colSums(is.na(hallucination_cases))
+sort(table(hallucination_cases$`Party(ies)`, useNA = "ifany"),
+     decreasing = TRUE)
+table(hallucination_cases$`Professional Sanction`, useNA = "ifany")
+```
+```{r}
+library(dplyr)
+hallucination_cases %>%
+  filter(
+    !is.na(`Party(ies)`),
+    !is.na(`Professional Sanction`)
+  ) %>%
+  group_by(`Party(ies)`) %>%
+  summarise(
+    Total_Cases = n(),
+    Sanctioned_Cases = sum(`Professional Sanction`== "Yes"),
+    Sanction_Rate = mean(`Professional Sanction`== "Yes") * 100,
+    .groups = "drop"
+  ) %>%
+  arrange(desc(Sanction_Rate))
+```
+
+
+#fit and interpret decision tree
+```{r}
+library(dplyr)
+library(rpart)
+library(rpart.plot)
+library(caret)
+tree <- hallucination_cases %>%
+  select(`Party(ies)`, `Professional Sanction`) %>%
+  filter(
+    !is.na(`Party(ies)`),
+    !is.na(`Professional Sanction`)
+  ) %>%
+  mutate(
+    Party = factor(`Party(ies)`),
+    Sanction = factor(
+      `Professional Sanction`,
+      levels = c("No", "Yes")
+    )
+  ) %>%
+  select(Party, Sanction)
+set.seed(123)
+train_index <- createDataPartition(
+  tree$Sanction,
+  p = 0.80,
+  list = FALSE
+)
+train_data <- tree[train_index, ]
+test_data <- tree[-train_index, ]
+nrow(train_data)
+nrow(test_data)
+table(train_data$Sanction)
+table(test_data$Sanction)
+```
+```{r}
+decision <- rpart(
+  Sanction ~ Party,
+  data = train_data,
+  method = "class",
+  control = rpart.control(
+    cp = 0.005,
+    minbucket = 10
+  )
+)
+rpart.plot(
+  decision, type = 3, extra = 104, fallen.leaves = TRUE, main = "Decision Tree for party and its connection to professional sanction"
+)
+
+predictions <- predict(
+  decision, newdata = test_data, type = "class"
+)
+confusionMatrix(
+  data = factor(predictions, levels = c("No", "Yes")),
+  reference = test_data$Sanction,
+  positive = "Yes"
+)
+```
+```{r}
+print(decision)
+```
 
