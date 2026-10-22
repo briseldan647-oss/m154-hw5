@@ -13,6 +13,7 @@ dim(hallucination_cases)
 str(hallucination_cases)
 table(hallucination_cases$`Professional Sanction`, useNA = "ifany")
 ```
+
 ```{r}
 library(ggplot2)
 ggplot(hallucination_cases, aes(x = `Professional Sanction`)) +
@@ -121,5 +122,45 @@ confusionMatrix(
 ```
 ```{r}
 print(decision)
+```
+
+#random forest
+```{r}
+library(randomForest)
+library(caret)
+set.seed(123)
+forest <- randomForest(
+  Sanction ~ Party,
+  data = train_data,
+  ntree = 500,
+  importance = TRUE
+)
+forest
+```
+```{r}
+forestpredict <- predict(
+  forest,
+  newdata = test_data,
+  type = "class"
+)
+table(forestpredict)
+confusionMatrix(
+  data = factor(forestpredict, levels = c("No", "Yes")),
+  reference = test_data$Sanction,
+  positive = "Yes"
+)
+```
+
+
+# compare it with the decision tree
+```{r}
+compare <- data.frame(
+  Model = c("Decision Tree", "Random Forest"),
+  Accuracy = c(0.9225, 0.9201),
+  Sensitivity = c(0, 0),
+  Specificity = c(1.0000, 0.997375),
+  Balanced_Accuracy = c(0.5000, 0.498688)
+)
+compare
 ```
 
