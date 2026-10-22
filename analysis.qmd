@@ -5,6 +5,10 @@ format: html
 
 #research question
 Does the type of party show whether someone who uses AI will receive a professional sanction?
+```{r}
+hallucination_cases <- read.csv("hallucination_cases.csv")
+```
+
 
 ```{r}
 names(hallucination_cases)
@@ -16,7 +20,7 @@ table(hallucination_cases$`Professional Sanction`, useNA = "ifany")
 
 ```{r}
 library(ggplot2)
-ggplot(hallucination_cases, aes(x = `Professional Sanction`)) +
+ggplot(hallucination_cases, aes(x = Professional.Sanction)) +
   geom_bar() +
   labs(
     title = "cases by which profession",
@@ -28,7 +32,7 @@ ggplot(hallucination_cases, aes(x = `Professional Sanction`)) +
 
 #visualization
 ```{r}
-ggplot(hallucination_cases, aes(x = `Party(ies)`, fill = `Professional Sanction`)
+ggplot(hallucination_cases, aes(x = Party.ies., fill = Professional.Sanction)
 ) +
   geom_bar(position = "fill") +
   labs(
@@ -42,7 +46,7 @@ ggplot(hallucination_cases, aes(x = `Party(ies)`, fill = `Professional Sanction`
 ```
 ```{r}
 colSums(is.na(hallucination_cases))
-sort(table(hallucination_cases$`Party(ies)`, useNA = "ifany"),
+sort(table(hallucination_cases$Party.ies., useNA = "ifany"),
      decreasing = TRUE)
 table(hallucination_cases$`Professional Sanction`, useNA = "ifany")
 ```
@@ -50,14 +54,14 @@ table(hallucination_cases$`Professional Sanction`, useNA = "ifany")
 library(dplyr)
 hallucination_cases %>%
   filter(
-    !is.na(`Party(ies)`),
-    !is.na(`Professional Sanction`)
+    !is.na(Party.ies.),
+    !is.na(Professional.Sanction)
   ) %>%
-  group_by(`Party(ies)`) %>%
+  group_by(Party.ies.) %>%
   summarise(
     Total_Cases = n(),
-    Sanctioned_Cases = sum(`Professional Sanction`== "Yes"),
-    Sanction_Rate = mean(`Professional Sanction`== "Yes") * 100,
+    Sanctioned_Cases = sum(Professional.Sanction== "Yes"),
+    Sanction_Rate = mean(Professional.Sanction== "Yes") * 100,
     .groups = "drop"
   ) %>%
   arrange(desc(Sanction_Rate))
@@ -71,15 +75,15 @@ library(rpart)
 library(rpart.plot)
 library(caret)
 tree <- hallucination_cases %>%
-  select(`Party(ies)`, `Professional Sanction`) %>%
+  select(Party.ies., Professional.Sanction) %>%
   filter(
-    !is.na(`Party(ies)`),
-    !is.na(`Professional Sanction`)
+    !is.na(Party.ies.),
+    !is.na(Professional.Sanction)
   ) %>%
   mutate(
-    Party = factor(`Party(ies)`),
+    Party = factor(Party.ies.),
     Sanction = factor(
-      `Professional Sanction`,
+      Professional.Sanction,
       levels = c("No", "Yes")
     )
   ) %>%

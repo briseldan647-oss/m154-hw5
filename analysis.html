@@ -96,9 +96,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>#research question Does the type of party show whether someone who uses AI will receive a professional sanction?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"hallucination_cases.csv"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>hallucination_cases <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"hallucination_cases.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(hallucination_cases)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Case.Name"                   "Court"                      
+ [3] "State.s."                    "Date"                       
+ [5] "Party.ies."                  "AI.Tool"                    
+ [7] "Hallucination.Items"         "Outcome"                    
+ [9] "Monetary.Penalty"            "Professional.Sanction"      
+[11] "Alleged"                     "Vendor.Disputed"            
+[13] "Vendor.Disputed.Explanation" "Pointer"                    
+[15] "Source"                      "Details"                    
+[17] "Legal.Field.Primary"         "Legal.Field.Secondary"      </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(hallucination_cases)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                        Case.Name
 1                     State v. Sandoval / In re Stephen D. Aarons
@@ -164,19 +179,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 5      administrative                      
 6              family                      </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(hallucination_cases)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] "Case.Name"                   "Court"                      
- [3] "State.s."                    "Date"                       
- [5] "Party.ies."                  "AI.Tool"                    
- [7] "Hallucination.Items"         "Outcome"                    
- [9] "Monetary.Penalty"            "Professional.Sanction"      
-[11] "Alleged"                     "Vendor.Disputed"            
-[13] "Vendor.Disputed.Explanation" "Pointer"                    
-[15] "Source"                      "Details"                    
-[17] "Legal.Field.Primary"         "Legal.Field.Secondary"      </code></pre>
+<pre><code>[1] 2078   18</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(hallucination_cases)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   2078 obs. of  18 variables:
  $ Case.Name                  : chr  "State v. Sandoval / In re Stephen D. Aarons" "Ryan v. Perez" "Posey v. Bushnell" "Garner v. Transit Employees Federal Credit Union" ...
@@ -198,7 +205,388 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  $ Legal.Field.Primary        : chr  "criminal" "family" "tort" "employment" ...
  $ Legal.Field.Secondary      : chr  "" "" "" "" ...</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(hallucination_cases<span class="sc">$</span><span class="st">`</span><span class="at">Professional Sanction</span><span class="st">`</span>, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt; table of extent 0 &gt;</code></pre>
 </div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.5.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hallucination_cases, <span class="fu">aes</span>(<span class="at">x =</span> Professional.Sanction)) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"cases by which profession"</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"professional santion"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"cases"</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>#visualization</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hallucination_cases, <span class="fu">aes</span>(<span class="at">x =</span> Party.ies., <span class="at">fill =</span> Professional.Sanction)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Profession"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Roles"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"proportion"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Professional Sanction?"</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(hallucination_cases))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  Case.Name                       Court 
+                          0                           0 
+                   State.s.                        Date 
+                          0                           0 
+                 Party.ies.                     AI.Tool 
+                          0                           0 
+        Hallucination.Items                     Outcome 
+                          0                           0 
+           Monetary.Penalty       Professional.Sanction 
+                          0                           0 
+                    Alleged             Vendor.Disputed 
+                          0                           0 
+Vendor.Disputed.Explanation                     Pointer 
+                          0                           0 
+                     Source                     Details 
+                          0                           0 
+        Legal.Field.Primary       Legal.Field.Secondary 
+                          0                           0 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(hallucination_cases<span class="sc">$</span>Party.ies., <span class="at">useNA =</span> <span class="st">"ifany"</span>),</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+        Pro Se Litigant                  Lawyer                   Judge 
+                   1194                     819                      26 
+                 Expert                              Governement Lawyer 
+                     15                       6                       3 
+             Prosecutor           Judge; Lawyer           Lawyer; Judge 
+                      3                       2                       2 
+             Arbitrator        Federal Defender       Judge; Prosecutor 
+                      1                       1                       1 
+Lawyer; Pro Se Litigant               Paralegal       Paralegal; Lawyer 
+                      1                       1                       1 
+Pro Se Litigant; Lawyer       Prosecutor; Judge 
+                      1                       1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(hallucination_cases<span class="sc">$</span><span class="st">`</span><span class="at">Professional Sanction</span><span class="st">`</span>, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt; table of extent 0 &gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.5.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>hallucination_cases <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(Party.ies.),</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(Professional.Sanction)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Party.ies.) <span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Total_Cases =</span> <span class="fu">n</span>(),</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sanctioned_Cases =</span> <span class="fu">sum</span>(Professional.Sanction<span class="sc">==</span> <span class="st">"Yes"</span>),</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sanction_Rate =</span> <span class="fu">mean</span>(Professional.Sanction<span class="sc">==</span> <span class="st">"Yes"</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">"drop"</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Sanction_Rate))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 17 × 4
+   Party.ies.                Total_Cases Sanctioned_Cases Sanction_Rate
+   &lt;chr&gt;                           &lt;int&gt;            &lt;int&gt;         &lt;dbl&gt;
+ 1 "Judge; Prosecutor"                 1                1       100    
+ 2 "Lawyer; Judge"                     2                1        50    
+ 3 "Lawyer"                          819              157        19.2  
+ 4 "Judge"                            26                2         7.69 
+ 5 "Pro Se Litigant"                1194                2         0.168
+ 6 ""                                  6                0         0    
+ 7 "Arbitrator"                        1                0         0    
+ 8 "Expert"                           15                0         0    
+ 9 "Federal Defender"                  1                0         0    
+10 "Governement Lawyer"                3                0         0    
+11 "Judge; Lawyer"                     2                0         0    
+12 "Lawyer; Pro Se Litigant"           1                0         0    
+13 "Paralegal"                         1                0         0    
+14 "Paralegal; Lawyer"                 1                0         0    
+15 "Pro Se Litigant; Lawyer"           1                0         0    
+16 "Prosecutor"                        3                0         0    
+17 "Prosecutor; Judge"                 1                0         0    </code></pre>
+</div>
+</div>
+<p>#fit and interpret decision tree</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'rpart.plot' was built under R version 4.5.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lattice</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> hallucination_cases <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Party.ies., Professional.Sanction) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(Party.ies.),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(Professional.Sanction)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Party =</span> <span class="fu">factor</span>(Party.ies.),</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">Sanction =</span> <span class="fu">factor</span>(</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>      Professional.Sanction,</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Party, Sanction)</span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>train_index <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  tree<span class="sc">$</span>Sanction,</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">p =</span> <span class="fl">0.80</span>,</span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">list =</span> <span class="cn">FALSE</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>train_data <span class="ot">&lt;-</span> tree[train_index, ]</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>test_data <span class="ot">&lt;-</span> tree[<span class="sc">-</span>train_index, ]</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(train_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1663</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(test_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 415</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(train_data<span class="sc">$</span>Sanction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  No  Yes 
+1532  131 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(test_data<span class="sc">$</span>Sanction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ No Yes 
+383  32 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>decision <span class="ot">&lt;-</span> <span class="fu">rpart</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  Sanction <span class="sc">~</span> Party,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"class"</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">control =</span> <span class="fu">rpart.control</span>(</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">cp =</span> <span class="fl">0.005</span>,</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">minbucket =</span> <span class="dv">10</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  decision, <span class="at">type =</span> <span class="dv">3</span>, <span class="at">extra =</span> <span class="dv">104</span>, <span class="at">fallen.leaves =</span> <span class="cn">TRUE</span>, <span class="at">main =</span> <span class="st">"Decision Tree for party and its connection to professional sanction"</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="analysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="ot">&lt;-</span> <span class="fu">predict</span>(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  decision, <span class="at">newdata =</span> test_data, <span class="at">type =</span> <span class="st">"class"</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">factor</span>(predictions, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)),</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> test_data<span class="sc">$</span>Sanction,</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">positive =</span> <span class="st">"Yes"</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  No Yes
+       No  383  32
+       Yes   0   0
+                                          
+               Accuracy : 0.9229          
+                 95% CI : (0.8929, 0.9467)
+    No Information Rate : 0.9229          
+    P-Value [Acc &gt; NIR] : 0.5469          
+                                          
+                  Kappa : 0               
+                                          
+ Mcnemar's Test P-Value : 4.251e-08       
+                                          
+            Sensitivity : 0.00000         
+            Specificity : 1.00000         
+         Pos Pred Value :     NaN         
+         Neg Pred Value : 0.92289         
+             Prevalence : 0.07711         
+         Detection Rate : 0.00000         
+   Detection Prevalence : 0.00000         
+      Balanced Accuracy : 0.50000         
+                                          
+       'Positive' Class : Yes             
+                                          </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(decision)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>n= 1663 
+
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+1) root 1663 131 No (0.9212267 0.0787733) *</code></pre>
+</div>
+</div>
+<p>#random forest</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>randomForest 4.7-1.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Type rfNews() to see new features/changes/bug fixes.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'randomForest'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    combine</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    margin</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>forest <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>  Sanction <span class="sc">~</span> Party,</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> train_data,</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ntree =</span> <span class="dv">500</span>,</span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">importance =</span> <span class="cn">TRUE</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>forest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+ randomForest(formula = Sanction ~ Party, data = train_data, ntree = 500,      importance = TRUE) 
+               Type of random forest: classification
+                     Number of trees: 500
+No. of variables tried at each split: 1
+
+        OOB estimate of  error rate: 8.3%
+Confusion matrix:
+      No Yes class.error
+No  1525   7 0.004569191
+Yes  131   0 1.000000000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>forestpredict <span class="ot">&lt;-</span> <span class="fu">predict</span>(</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  forest,</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> test_data,</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"class"</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(forestpredict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>forestpredict
+ No Yes 
+414   1 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">factor</span>(forestpredict, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No"</span>, <span class="st">"Yes"</span>)),</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">reference =</span> test_data<span class="sc">$</span>Sanction,</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">positive =</span> <span class="st">"Yes"</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Confusion Matrix and Statistics
+
+          Reference
+Prediction  No Yes
+       No  382  32
+       Yes   1   0
+                                          
+               Accuracy : 0.9205          
+                 95% CI : (0.8901, 0.9446)
+    No Information Rate : 0.9229          
+    P-Value [Acc &gt; NIR] : 0.6179          
+                                          
+                  Kappa : -0.0047         
+                                          
+ Mcnemar's Test P-Value : 1.767e-07       
+                                          
+            Sensitivity : 0.00000         
+            Specificity : 0.99739         
+         Pos Pred Value : 0.00000         
+         Neg Pred Value : 0.92271         
+             Prevalence : 0.07711         
+         Detection Rate : 0.00000         
+   Detection Prevalence : 0.00241         
+      Balanced Accuracy : 0.49869         
+                                          
+       'Positive' Class : Yes             
+                                          </code></pre>
+</div>
+</div>
+<section id="compare-it-with-the-decision-tree" class="level1">
+<h1>compare it with the decision tree</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>compare <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Model =</span> <span class="fu">c</span>(<span class="st">"Decision Tree"</span>, <span class="st">"Random Forest"</span>),</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Accuracy =</span> <span class="fu">c</span>(<span class="fl">0.9225</span>, <span class="fl">0.9201</span>),</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sensitivity =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Specificity =</span> <span class="fu">c</span>(<span class="fl">1.0000</span>, <span class="fl">0.997375</span>),</span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Balanced_Accuracy =</span> <span class="fu">c</span>(<span class="fl">0.5000</span>, <span class="fl">0.498688</span>)</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>compare</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          Model Accuracy Sensitivity Specificity Balanced_Accuracy
+1 Decision Tree   0.9225           0    1.000000          0.500000
+2 Random Forest   0.9201           0    0.997375          0.498688</code></pre>
+</div>
+</div>
+</section>
 
 </main>
 <!-- /main column -->
