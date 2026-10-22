@@ -3,7 +3,7 @@ title: "analysis"
 format: html
 ---
 
-#research question
+# research question
 Does the type of party show whether someone who uses AI will receive a professional sanction?
 ```{r}
 hallucination_cases <- read.csv("hallucination_cases.csv")
@@ -30,7 +30,7 @@ ggplot(hallucination_cases, aes(x = Professional.Sanction)) +
   theme_minimal()
 ```
 
-#visualization
+# visualization
 ```{r}
 ggplot(hallucination_cases, aes(x = Party.ies., fill = Professional.Sanction)
 ) +
@@ -68,7 +68,7 @@ hallucination_cases %>%
 ```
 
 
-#fit and interpret decision tree
+# fit and interpret decision tree
 ```{r}
 library(dplyr)
 library(rpart)
@@ -128,7 +128,7 @@ confusionMatrix(
 print(decision)
 ```
 
-#random forest
+# random forest
 ```{r}
 library(randomForest)
 library(caret)

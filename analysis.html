@@ -96,7 +96,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>#research question Does the type of party show whether someone who uses AI will receive a professional sanction?</p>
+<section id="research-question" class="level1">
+<h1>research question</h1>
+<p>Does the type of party show whether someone who uses AI will receive a professional sanction?</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>hallucination_cases <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"hallucination_cases.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -231,7 +233,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>#visualization</p>
+</section>
+<section id="visualization" class="level1">
+<h1>visualization</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(hallucination_cases, <span class="fu">aes</span>(<span class="at">x =</span> Party.ies., <span class="at">fill =</span> Professional.Sanction)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
@@ -351,7 +355,9 @@ Attaching package: 'dplyr'</code></pre>
 17 "Prosecutor; Judge"                 1                0         0    </code></pre>
 </div>
 </div>
-<p>#fit and interpret decision tree</p>
+</section>
+<section id="fit-and-interpret-decision-tree" class="level1">
+<h1>fit and interpret decision tree</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
@@ -475,7 +481,9 @@ node), split, n, loss, yval, (yprob)
 1) root 1663 131 No (0.9212267 0.0787733) *</code></pre>
 </div>
 </div>
-<p>#random forest</p>
+</section>
+<section id="random-forest" class="level1">
+<h1>random forest</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
@@ -569,6 +577,7 @@ Prediction  No Yes
                                           </code></pre>
 </div>
 </div>
+</section>
 <section id="compare-it-with-the-decision-tree" class="level1">
 <h1>compare it with the decision tree</h1>
 <div class="cell">
